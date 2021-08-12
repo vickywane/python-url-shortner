@@ -7,8 +7,6 @@ import shortuuid
 import os
 
 app = FastAPI()
-# mongodb+srv://admin:iamnwani01@cluster0.zd2v6.mongodb.net
-print(os.environ.get('MONGO_URI'), '\n \n \n')
 client = MongoClient(os.environ.get('MONGO_URI'))
 url_collection = client['ata-url-app']
 
@@ -33,17 +31,22 @@ class UrlModel(BaseModel):
 
 # Insert long_url to database
 @app.post("/shorty")
-def url(url: UrlModel):
-    url_id = shortuuid.uuid()
-    short_url = "http://localhost:8000/{0}".format(url_id)
+def url(url: UrlModel, response: Response):
+    print(url)
+    if url is not None and type(url.url) == str:
+        url_id = shortuuid.uuid()
+        short_url = "http://localhost:8000/{0}".format(url_id)
 
-    data = {
-        "long_url": url.url,
-        "short_url": short_url,
-        "dateCreated": datetime.datetime.now(),
-        "url_id": url_id
-    }
+        data = {
+            "long_url": url.url,
+            "short_url": short_url,
+            "dateCreated": datetime.datetime.now(),
+            "url_id": url_id
+        }
 
-    url_collection.urls.insert_one(data)
+        url_collection.urls.insert_one(data)
 
-    return {"short_url": short_url}
+        return {"short_url": short_url}
+
+    response.status_code = status.HTTP_422_UNPROCESSABLE_ENTITY
+    return {'message': 'No valid url in request body'}
