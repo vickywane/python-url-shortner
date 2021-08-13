@@ -1,5 +1,3 @@
 #!/bin/bash
 
-cd ../
-
-docker-compose down
+docker-compose  --file="../docker-compose.yml" down
