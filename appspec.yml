@@ -8,9 +8,8 @@ hooks:
  BeforeInstall: 
    - location: scripts/install_docker.sh
      runas: root
-#  AfterInstall:
-#    - location: Scripts/RunResourceTests.sh
-#      timeout: 180
+   - location: scripts/install_docker_compose.sh
+     runas: root
  ApplicationStart:
    - location: scripts/start-app.sh
      timeout: 3600
