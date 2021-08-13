@@ -1,4 +1,3 @@
 #!/bin/bash
 
-# docker-compose up 
-cat ../
+docker-compose up 
