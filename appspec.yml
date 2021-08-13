@@ -1,21 +1,25 @@
 version: 0.0
 os: linux
 files:
-  - source: Config/config.txt
-    destination: /webapps/Config
-  - source: source
-    destination: /webapps/myApp
-#hooks:
-#  BeforeInstall:
-#    - location: Scripts/UnzipResourceBundle.sh
-#    - location: Scripts/UnzipDataBundle.sh
+  - source: /
+    destination: /app
+file_exists_behavior: OVERWRITE
+hooks:
+ BeforeInstall: 
+   - location: scripts/install_docker.sh
+     runas: root
 #  AfterInstall:
 #    - location: Scripts/RunResourceTests.sh
 #      timeout: 180
-#  ApplicationStart:
-#    - location: Scripts/RunFunctionalTests.sh
-#      timeout: 3600
+ ApplicationStart:
+   - location: scripts/start-app.sh
+     timeout: 3600
+     runas: root
 #  ValidateService:
 #    - location: Scripts/MonitorService.sh
 #      timeout: 3600
 #      runas: codedeployuser
+ ApplicationStop:
+   - location: scripts/stop-app.sh
+     timeout: 2000
+     runas: root
