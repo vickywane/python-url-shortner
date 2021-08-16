@@ -10,6 +10,11 @@ app = FastAPI()
 client = MongoClient(os.environ.get('MONGO_URI'))
 url_collection = client['ata-url-app']
 
+# Retrieve long_url from database and redirect to long_url
+@app.get("/detail")
+async def detail():
+    return {"message":"REST API for generating short URLs"}
+
 
 # Retrieve long_url from database and redirect to long_url
 @app.get("/{short_url_id}")
